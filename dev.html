@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#FFE9EF" />
+    <meta name="color-scheme" content="light" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="МурLove" />
+    <meta name="description" content="Маленький світ любові, пухнастиків і обіймів для Мар’яни. Твій Ігор ❤️" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icon-180.png" />
+    <title>МурLove ❤️ Твій Ігор</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #fff1ea;
+      }
+      #boot {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(170deg, #fff3ea, #ffe4ee 46%, #efe6ff);
+        font: 700 64px/1 -apple-system, system-ui, sans-serif;
+        color: #ff6f9c;
+      }
+      #boot span {
+        animation: b 1.2s ease-in-out infinite;
+      }
+      @keyframes b {
+        50% {
+          transform: scale(1.15);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="overlays"></div>
+    <div id="fx"></div>
+    <div id="toasts"></div>
+    <div id="boot"><span>♥</span></div>
+    <noscript>Щоб відкрити МурLove, увімкни JavaScript у браузері.</noscript>
+    <script type="module" src="./main.tsx"></script>
+  </body>
+</html>
