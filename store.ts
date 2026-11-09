@@ -30,6 +30,9 @@ export interface AppState {
   secrets: string[]
   welcomed: boolean
   installTipHidden: boolean
+  reasonsRead: number[]
+  noteDay: string
+  treatySigned: number
 }
 
 const KEY = 'murlove.v1'
@@ -50,6 +53,9 @@ const DEFAULTS: AppState = {
   secrets: [],
   welcomed: false,
   installTipHidden: false,
+  reasonsRead: [],
+  noteDay: '',
+  treatySigned: 0,
 }
 
 function load(): AppState {
@@ -63,6 +69,7 @@ function load(): AppState {
       settings: { ...DEFAULTS.settings, ...(data.settings || {}) },
       stats: { ...DEFAULTS.stats, ...(data.stats || {}) },
       secrets: Array.isArray(data.secrets) ? data.secrets : [],
+      reasonsRead: Array.isArray(data.reasonsRead) ? data.reasonsRead : [],
     }
   } catch {
     return structuredClone(DEFAULTS)

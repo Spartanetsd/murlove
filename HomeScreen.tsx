@@ -10,6 +10,7 @@ import { haptic, isStandalone, isIOS } from './device'
 import { burst, rain, centerOf } from './fx'
 import { bump, pick, useStore, update, isCalm } from './store'
 import { MoodScene } from './MoodScene'
+import { DailyNote, ForYou, ReasonsOverlay, PeaceOverlay, NightOverlay, type Ritual } from './Rituals'
 
 export function dayPart(): 'morning' | 'day' | 'evening' {
   const h = new Date().getHours()
@@ -22,6 +23,7 @@ export function HomeScreen({ heartTap }: { heartTap: (el: Element | null) => voi
   const [msg, setMsg] = useState({ text: PERSONAL.homeMessage, sign: false, k: 0 })
   const [hugging, setHugging] = useState(false)
   const [mood, setMood] = useState<MoodId | null>(null)
+  const [ritual, setRitual] = useState<Ritual | null>(null)
   const btnRef = useRef<HTMLDivElement>(null)
   const logoRef = useRef<HTMLButtonElement>(null)
   const part = dayPart()
@@ -92,6 +94,8 @@ export function HomeScreen({ heartTap }: { heartTap: (el: Element | null) => voi
         </Btn>
       </div>
 
+      <DailyNote />
+
       <section className="mood">
         <h2>Як почувається моє сонечко?</h2>
         <div className="mood-grid">
@@ -107,12 +111,20 @@ export function HomeScreen({ heartTap }: { heartTap: (el: Element | null) => voi
               }}
             >
               <span className="mood-emoji">{m.emoji}</span>
-              <Pet id={m.pet} mini className="mood-pet" state={m.id === 'tired' ? 'sleep' : 'happy'} />
+              <Pet
+                id={m.pet}
+                mini
+                className="mood-pet"
+                cheeks={m.id === 'angry' ? 5 : 0}
+                state={m.id === 'tired' ? 'sleep' : m.id === 'angry' ? 'idle' : 'happy'}
+              />
               <span className="mood-label">{m.label}</span>
             </button>
           ))}
         </div>
       </section>
+
+      <ForYou onOpen={setRitual} />
 
       {!tipHidden && !isStandalone() && (
         <section className="card glass install-tip">
@@ -148,7 +160,19 @@ export function HomeScreen({ heartTap }: { heartTap: (el: Element | null) => voi
         </Overlay>
       )}
 
-      {mood && <MoodScene id={mood} onClose={() => setMood(null)} />}
+      {mood && (
+        <MoodScene
+          id={mood}
+          onClose={() => setMood(null)}
+          onPeace={() => {
+            setMood(null)
+            setRitual('peace')
+          }}
+        />
+      )}
+      {ritual === 'reasons' && <ReasonsOverlay onClose={() => setRitual(null)} />}
+      {ritual === 'peace' && <PeaceOverlay onClose={() => setRitual(null)} />}
+      {ritual === 'night' && <NightOverlay onClose={() => setRitual(null)} />}
     </div>
   )
 }

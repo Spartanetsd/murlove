@@ -517,3 +517,77 @@ export function Icon({ name, className }: { name: IconName; className?: string }
     </svg>
   )
 }
+
+// ---------- Білий прапорець (перемир’я) ----------
+export function FlagSvg({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 90 110" className={className} aria-hidden="true">
+      <path d="M14 106V10" stroke="#B9875B" strokeWidth="6" strokeLinecap="round" />
+      <circle cx="14" cy="9" r="6" fill="url(#mg-gold)" />
+      <g className="flag-cloth" style={{ transformOrigin: '16px 30px' }}>
+        <path d="M16 14c18-8 30 8 48 2 8-3 14-6 20-4v42c-6-2-12 1-20 4-18 6-30-10-48-2z" fill="#FFFFFF" />
+        <path d="M16 14c18-8 30 8 48 2 8-3 14-6 20-4v42c-6-2-12 1-20 4-18 6-30-10-48-2z" fill="none" stroke="#EADDE6" strokeWidth="2" />
+        <path d={HEART_D} transform="translate(40 24) scale(.2)" fill="url(#mg-heart)" />
+      </g>
+    </svg>
+  )
+}
+
+// ---------- Баночка з причинами ----------
+export function JarSvg({ className }: { className?: string }) {
+  const notes = [
+    [70, 196, -18, '#FFC2D4'], [100, 200, 8, '#FFE3A3'], [130, 197, -6, '#D9C8FF'], [86, 182, 22, '#C9EBD6'],
+    [116, 180, -14, '#FFD1BD'], [146, 184, 16, '#FFC2D4'], [72, 166, 6, '#D9C8FF'], [104, 162, -24, '#FFE3A3'],
+    [134, 164, 10, '#C9EBD6'], [90, 146, -8, '#FFC2D4'], [120, 144, 18, '#FFD1BD'],
+  ] as const
+  return (
+    <svg viewBox="0 0 200 240" className={className} aria-hidden="true">
+      <ellipse cx="100" cy="230" rx="66" ry="8" fill="url(#mg-shadow)" />
+      <path d="M44 78c0-8 6-12 12-12h88c6 0 12 4 12 12v128c0 14-10 22-22 22H66c-12 0-22-8-22-22z" fill="#FFFFFF" opacity=".5" />
+      {notes.map(([x, y, r, c], i) => (
+        <g key={i} transform={`rotate(${r} ${x} ${y})`}>
+          <rect x={x - 15} y={y - 9} width="30" height="18" rx="4" fill={c} />
+          <path d={`M${x - 15} ${y}h30`} stroke="#fff" strokeWidth="1.5" opacity=".7" />
+        </g>
+      ))}
+      <path d={HEART_D} transform="translate(88 118) scale(.24)" fill="url(#mg-heart)" />
+      <path d="M44 78c0-8 6-12 12-12h88c6 0 12 4 12 12v128c0 14-10 22-22 22H66c-12 0-22-8-22-22z" fill="none" stroke="#fff" strokeWidth="4" opacity=".9" />
+      <path d="M58 92v100" stroke="#fff" strokeWidth="7" strokeLinecap="round" opacity=".55" />
+      <rect x="50" y="44" width="100" height="26" rx="10" fill="url(#mg-ribbon)" />
+      <rect x="50" y="44" width="100" height="9" rx="5" fill="#fff" opacity=".3" />
+      <path d="M100 44c-12-18-30-14-26-4 3 7 16 6 26 4zM100 44c12-18 30-14 26-4-3 7-16 6-26 4z" fill="url(#mg-gift)" />
+      <circle cx="100" cy="44" r="6" fill="#FF8FB1" />
+    </svg>
+  )
+}
+
+// ---------- Конвертик ----------
+export function EnvelopeSvg({ open, className }: { open?: boolean; className?: string }) {
+  return (
+    <svg viewBox="0 0 200 140" className={className} aria-hidden="true">
+      <rect x="10" y="20" width="180" height="112" rx="14" fill="#FFE6EE" />
+      <rect x="40" y={open ? 2 : 30} width="120" height="80" rx="6" fill="#FFFDF8" className="env-paper" />
+      <path d="M10 46l90 52 90-52v72a14 14 0 0 1-14 14H24a14 14 0 0 1-14-14z" fill="#FFF6F0" />
+      <path d="M10 132l70-50M190 132l-70-50" stroke="#F6CFDC" strokeWidth="2" />
+      <g className={'env-flap' + (open ? ' open' : '')} style={{ transformOrigin: '100px 22px' }}>
+        <path d="M14 24c0-2 2-4 6-4h160c4 0 6 2 6 4l-86 58z" fill="#FFD3E0" />
+      </g>
+      {!open && <path d={HEART_D} transform="translate(86 62) scale(.28)" fill="url(#mg-heart)" />}
+    </svg>
+  )
+}
+
+// ---------- Відбиток лапки (печатка) ----------
+export function PawStamp({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} aria-hidden="true">
+      <g fill="#FF6F9C" opacity=".85">
+        <ellipse cx="16" cy="21" rx="8" ry="7" />
+        <ellipse cx="7" cy="12" rx="3.4" ry="4.4" />
+        <ellipse cx="13" cy="7" rx="3.4" ry="4.4" />
+        <ellipse cx="19.5" cy="7" rx="3.4" ry="4.4" />
+        <ellipse cx="25.5" cy="12" rx="3.4" ry="4.4" />
+      </g>
+    </svg>
+  )
+}

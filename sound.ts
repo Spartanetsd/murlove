@@ -609,7 +609,7 @@ export function startPurr(k = 1) {
   purrTimer = window.setInterval(tick, 250)
 }
 
-export function stopPurr() {
+export function stopPurr(fade = 0.18) {
   if (purrTimer !== null) {
     clearInterval(purrTimer)
     purrTimer = null
@@ -617,9 +617,13 @@ export function stopPurr() {
   const g = purrGain
   purrGain = null
   if (g && ctx) {
-    g.gain.setTargetAtTime(0, ctx.currentTime, 0.18)
-    setTimeout(() => g.disconnect(), 1800)
+    g.gain.setTargetAtTime(0, ctx.currentTime, fade)
+    setTimeout(() => g.disconnect(), fade * 10000 + 600)
   }
+}
+
+export function purrActive() {
+  return purrTimer !== null
 }
 
 /** Коротке муркотіння (≈ один-два цикли). */
@@ -735,10 +739,20 @@ function scheduleBar(c: Ctx, out: AudioNode, t: number, bar: number, round: numb
   if (bar % 4 === 3 && Math.random() < 0.6) bell(c, out, t + 2.5 * BEAT, PENTA[Math.floor(rand(0, 5))], 0.03, 1.4)
 }
 
+let nightOn = false
+let gateFade = 0.6
+
+/** Нічний режим «Засинай зі мною»: колискова грає незалежно від перемикача музики. */
+export function setNightMusic(on: boolean, fadeSec = 0.6) {
+  nightOn = on
+  gateFade = fadeSec
+  syncMusic()
+}
+
 function syncMusic() {
   if (!ctx || !musicBus || !musicGate) return
   const s = getState().settings
-  const want = s.sound && s.music
+  const want = s.sound && (s.music || nightOn)
   const t = ctx.currentTime
   if (want && musicTimer === null) {
     musicGate.gain.cancelScheduledValues(t)
@@ -766,7 +780,8 @@ function syncMusic() {
     musicTimer = null
     musicGate.gain.cancelScheduledValues(t)
     musicGate.gain.setValueAtTime(musicGate.gain.value, t)
-    musicGate.gain.linearRampToValueAtTime(0, t + 0.6)
+    musicGate.gain.linearRampToValueAtTime(0, t + gateFade)
+    gateFade = 0.6
   }
 }
 

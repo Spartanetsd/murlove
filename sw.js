@@ -1,6 +1,6 @@
 // Service worker «МурLove»: застосунок працює без інтернету після першого відкриття.
 // Після оновлення файлів на GitHub змініть VERSION — і телефон підтягне нову версію.
-const VERSION = 'murlove-1.0.0'
+const VERSION = 'murlove-1.1.0'
 const CORE = [
   './',
   './index.html',
